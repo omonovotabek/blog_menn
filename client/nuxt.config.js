@@ -21,7 +21,8 @@ export default {
   ],
 
   plugins: [
-    '@/plugins/element-ui'
+    '@/plugins/element-ui',
+    '@/plugins/vue-markdown',
   ],
 
   components: true,

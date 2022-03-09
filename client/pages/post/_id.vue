@@ -68,8 +68,9 @@ export default {
       canAddComment: true
     }
   },
-  validate({ params }) {
-    return Boolean(params.id);
+  validate(con) {
+    console.log(con);
+    return Boolean(con.params.id);
   },
   components: {
     AppComment,
