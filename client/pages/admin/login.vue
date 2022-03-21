@@ -75,7 +75,17 @@ export default {
         await this.$refs.form.validate()
         this.loading = true
         await this.$store.dispatch('auth/login', formData)
+        const messageSuccess = this.$store.getters['auth/messageSuccess'].messageSuccess
+        const messageBadRequest = this.$store.getters['auth/messageBadRequest'].messageBadRequest
         this.$router.push('/admin')
+        
+        if(messageSuccess)  
+          this.$message.success(messageSuccess)
+
+        if(messageBadRequest)
+          this.$message.warning(messageBadRequest.message)
+          
+        this.loading = false
       } catch (e) {
         this.loading = false
         console.log(e);

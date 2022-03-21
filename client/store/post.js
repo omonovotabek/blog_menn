@@ -1,44 +1,77 @@
-const posts = [
-  {title: 'Post 1', date: new Date(), views:22, comments:[1,2], _id: 'id1'},
-  {title: 'Post 2', date: new Date(), views:22, comments:[1,2], _id: 'id2'}
-]
 
-export default {
 
-  actions: {
-   async fetchAdmin({}) {
-     return await new Promise(resolve => {
-       setTimeout(() => {
-         resolve(posts)
-       }, 2000)
-     })
-   },
+export const actions = {
 
-   async fetchAdminById({}, id) {
-    return await new Promise(resolve => {
-      setTimeout(() => {
-        resolve(posts.find(p => p._id === id))
-      }, 2000)
-    })
+  async fetch({}) {
+    try {
+      return await this.$axios.$get('/api/post')
+    } catch (e) {
+      console.log(e)
+    }
   },
 
-  async remove ({}, id) {
-
+  async fetchAdmin({}) {
+    try {
+      return await this.$axios.$get('/api/post/admin')
+    } catch (e) {
+      console.log(e)
+    }
   },
 
-  async update ({}, {id, text}) {
-
+  async fetchById({}, id) {
+    try {
+      return await this.$axios.$get(`/api/post/${id}`)
+    } catch (e) {
+      console.log(e)
+    }
   },
 
-  async create ({}, {title, text}) {
-    return await new Promise(resolve => {
-      setTimeout(() => {
-        resolve()
-      }, 1000)
-    })
-  }
+  async fetchAdminById({}, id) {
+    try {
+      const ad = await this.$axios.$get(`/api/post/admin/${id}`)
+      // console.log(ad)
+      return ad
+    } catch (e) {
+      console.log(e)
+    }
   },
-  getters: {
 
-  }
+  async create({ commit }, {title, text, image}) {
+    try {
+      // console.log(image)
+      const fd = new FormData()
+      fd.append('title', title)
+      fd.append('text', text)
+      fd.append('image', image, image.name) 
+      return await this.$axios.$post('/api/post/admin', fd)
+    } catch (e) {
+      console.log(e);
+    }
+  },
+
+  async remove({ }, id) {
+    try {
+      const ad = await this.$axios.$delete(`/api/post/admin/${id}`)
+      // console.log(ad)
+      return ad
+    } catch (e) {
+      console.log(e)
+    }
+  },
+
+  async update({ }, { id, text }) {
+    try {
+      const ad = await this.$axios.$put(`/api/post/admin/${id}`, {text})
+      // console.log(ad)
+      return ad
+    } catch (e) {
+      console.log(e)
+    }
+  },
+
+
+}
+
+export const getters = {
+
 }

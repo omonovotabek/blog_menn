@@ -7,7 +7,15 @@
       @submit.native.prevent="onSubmit"
     >
     <h2>Создать пользователя</h2>
-      <el-form-item label="Логин" prop="email">
+      <el-form-item label="Имя" prop="firstName">
+        <el-input v-model="controls.firstName"></el-input>
+      </el-form-item>
+
+        <el-form-item label="Фамиля" prop="lastName">
+        <el-input v-model="controls.lastName"></el-input>
+      </el-form-item>
+
+        <el-form-item label="Логин" prop="email">
         <el-input v-model="controls.email"></el-input>
       </el-form-item>
 
@@ -32,6 +40,8 @@ export default {
     return {
       loading: false,
       controls: {
+        lastName:'',
+        firstName:'',
         email: "",
         password: "",
       },
@@ -40,6 +50,20 @@ export default {
           {
             required: true,
             message: "Введите логин",
+            trigger: "blur",
+          },
+        ],
+          firstName: [
+          {
+            required: true,
+            message: "Введите имя",
+            trigger: "blur",
+          },
+        ],
+          lastName: [
+          {
+            required: true,
+            message: "Введите фамиля",
             trigger: "blur",
           },
         ],
@@ -61,6 +85,8 @@ export default {
   methods: {
    async onSubmit () {
       const formData = {
+        firstName: this.controls.firstName,
+        lastName: this.controls.lastName,
         email: this.controls.email,
         password: this.controls.password
       }
@@ -68,7 +94,20 @@ export default {
         await this.$refs.form.validate()
         this.loading = true
         await this.$store.dispatch('auth/createUser', formData)
-        this.$message.success('Новый пользователь добавлен')
+        const messageCreated = this.$store.getters['auth/messageCreated'].messageCreated
+        const messageBadRequest = this.$store.getters['auth/messageBadRequest'].messageBadRequest
+      
+        if(messageCreated) 
+          this.$message.success(messageCreated)
+
+        if(messageBadRequest.name === 'badRequest')
+          this.$message.warning(messageBadRequest.message)
+        
+        if(messageBadRequest.name === 'unauthorized')
+           this.$message.info(messageBadRequest.message)
+          
+        this.controls.firstName = ""
+        this.controls.lastName = ''
         this.controls.email = ''
         this.controls.password = ''
         this.loading = false

@@ -2,7 +2,7 @@
   <article class="post">
     <header class="post-header">
       <div class="post-title">
-        <h1>Post title</h1>
+        <h1>{{post.title}}</h1>
         <nuxt-link to="/">
           <i class="el-icon-back"></i>
         </nuxt-link>
@@ -11,36 +11,22 @@
       <div class="post-info">
         <small>
           <i class="el-icon-time"></i>
-          {{ new Date().toLocaleString() }}
+          {{ new Date(post.date).toLocaleString() }}
         </small>
         <small>
           <i class="el-icon-view"></i>
-          42
+          {{post.views}}
         </small>
       </div>
       <div class="post-image">
-        <img src="../../static/4562.jpg" alt="post image" />
+        <img 
+        :src="post.imageUrl" 
+        alt="post image" />
       </div>
     </header>
     <main class="post-content">
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis
-        doloribus autem ipsa labore cumque facilis in qui sint unde. Aut tempora
-        sunt reprehenderit eveniet doloremque atque facere laboriosam, ducimus
-        amet.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis
-        doloribus autem ipsa labore cumque facilis in qui sint unde. Aut tempora
-        sunt reprehenderit eveniet doloremque atque facere laboriosam, ducimus
-        amet.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis
-        doloribus autem ipsa labore cumque facilis in qui sint unde. Aut tempora
-        sunt reprehenderit eveniet doloremque atque facere laboriosam, ducimus
-        amet.
-      </p>
+      <vue-markdown> {{post.text}}</vue-markdown>
+     
     </main>
     <footer>
       <app-comment-form
@@ -68,9 +54,13 @@ export default {
       canAddComment: true
     }
   },
-  validate(con) {
-    console.log(con);
-    return Boolean(con.params.id);
+  validate({params}) {
+    // console.log(con);
+    return Boolean(params.id);
+  },
+  async asyncData({store, params}) {
+    const post = await store.dispatch('post/fetchById', params.id)
+    return {post}
   },
   components: {
     AppComment,

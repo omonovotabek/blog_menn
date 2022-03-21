@@ -33,7 +33,7 @@
       drag
       action="https://jsonplaceholder.typicode.com/posts/"
       ref="upload"
-      :on-change="handleImageChange"
+      :on-change="handleimageChange"
       :auto-upload="false"
       >
         <i class="el-icon-upload"></i>
@@ -88,7 +88,7 @@ export default {
     };
   },
   methods: {
-    handleImageChange(file, fileList){
+    handleimageChange(file, fileList){
       this.image = file.raw
     },
     async onSubmit() {
@@ -105,7 +105,8 @@ export default {
           this.loading = false
           return
         }
-        await this.$store.dispatch("auth/create", formData);
+        const ad = await this.$store.dispatch("post/create", formData);
+        // console.log(ad)
         this.controls.text = "";
         this.controls.title = "";
         this.image = null

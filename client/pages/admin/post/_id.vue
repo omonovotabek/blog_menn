@@ -58,6 +58,7 @@ export default {
   },
   async asyncData({store, params}) {
     const post = await store.dispatch('post/fetchAdminById', params.id)
+    // console.log(post)
     return {post}
   },
    data() {
@@ -86,7 +87,7 @@ export default {
       try {
         await this.$refs.form.validate()
         this.loading = false
-        await this.$store.dispatch('auth/update', formData)
+        await this.$store.dispatch('post/update', formData)
         this.$message.success('Пост обнавлен')
       } catch (e) {
         this.loading = false
