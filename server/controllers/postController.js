@@ -6,9 +6,10 @@ create = async function (req, res)  {
       
     try {
     const {title, text, imageUrl} = req.body
-    const {filename} = req.file
+    const {path} = req.file
+    // console.log(req.file)
     const post = new Post ({title, text, imageUrl})
-    post.imageUrl = filename
+    post.imageUrl = path
     await post.save()
     res.status(201).json(post)
  } catch (e) {
@@ -28,8 +29,8 @@ getAll = async (req, res) => {
 getById = async (req, res) => {
    try {
        const {id} = req.params
-       const post = await Post.findById({_id:id}).populate('Comment')
-       console.log(post)
+       const post = await Post.findById({_id:id})
+    //    console.log(post)
        res.status(200).json(post)
    } catch (e) {
        res.status(400).json(e.message)
@@ -55,10 +56,10 @@ update = async (req, res) => {
 remove = async (req, res) => {
   try {
       const {id} = req.params
-      await Post.deleteOne({_id:id})
-      res.status(200).json({message: "deleted success"})
-    //   const deletePost = await Post.findByIdAndDelete({_id:id})
-    //   res.status(200).json(deletePost)
+    //   await Post.deleteOne({_id:id})
+    //   res.status(200).json({message: "deleted success"})
+      const deletePost = await Post.findByIdAndDelete({_id:id})
+      res.status(200).json(deletePost)
   } catch (e) {
       res.status(400).json(e.message)
   }

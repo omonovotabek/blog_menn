@@ -23,6 +23,7 @@ export default {
   plugins: [
     '@/plugins/element-ui',
     '@/plugins/vue-markdown',
+    '@/plugins/axios'
   ],
 
   components: true,

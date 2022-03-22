@@ -19,10 +19,10 @@
     </el-table-column>
 
     <el-table-column label="Коментарии">
-      <template slot-scope="{ row: { comments } }">
+      <!-- <template slot-scope="{ row: { comments } }">
         <i class="el-icon-message"></i>
         <span style="margin-left: 10px">{{ comments.length }}</span>
-      </template>
+      </template> -->
     </el-table-column>
 
     <el-table-column label="Действия">
@@ -65,7 +65,8 @@ export default {
           cancelButtonText: 'Отменить',
           type: 'warning'
         })
-        await this.$store.dispatch('post/remove')
+        const ad = await this.$store.dispatch('post/remove', id)
+        //  console.log(ad)
         this.posts = this.posts.filter(p => p._id !== id)
         this.$message.success('Пост удален')
       } catch (e) {

@@ -5,14 +5,14 @@
   class="post"
   >
   <header slot="header" class="post-header">
-    <h3>Post title</h3>
+    <h3>{{post.title}}</h3>
     <small>
       <i class="el-icon-time"></i>
-      {{new Date().toLocaleString()}}</small>
+      {{new Date(post.date).toLocaleString()}}</small>
   </header>
   <div class="post-body">
   <img 
-  src="../../static/4562.jpg" 
+  :src="post.imageUrl" 
   alt="post image" 
   class="post-img">
   </div>
@@ -28,9 +28,18 @@
 
 <script>
 export default {
+  props: {
+    post: {
+      type: Object,
+      required: true
+    }
+  },
+  // created() {
+  //  console.log(this.props)
+  // },
   methods: {
     openPost() {
-      const id = 'test-id'
+      const id = this.post_id
       this.$router.push(`/post/${id}`)
     }
   }
