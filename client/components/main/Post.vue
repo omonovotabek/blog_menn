@@ -14,13 +14,13 @@
   <img 
   :src="post.imageUrl" 
   alt="post image" 
-  class="post-img">
+  class="post-img"/>
   </div>
   <footer class="post-footer">
     <el-button round @click="openPost">Открыть</el-button>
     <span>
       <i class="el-icon-message"></i>
-      12
+      {{post.comments.length}}
     </span>
   </footer>
   </el-card>
@@ -39,8 +39,9 @@ export default {
   // },
   methods: {
     openPost() {
-      const id = this.post_id
+      const id = this.post._id
       this.$router.push(`/post/${id}`)
+      console.log(id)
     }
   }
 }

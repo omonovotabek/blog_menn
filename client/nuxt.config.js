@@ -23,7 +23,8 @@ export default {
   plugins: [
     '@/plugins/element-ui',
     '@/plugins/vue-markdown',
-    '@/plugins/axios'
+    '@/plugins/axios',
+    '@plugins/vee-validate'
   ],
 
   components: true,
@@ -32,7 +33,7 @@ export default {
   ],
 
   modules: [
-    '@nuxtjs/axios',
+    '@nuxtjs/axios'
   ], 
 
   axios: {
@@ -40,6 +41,6 @@ export default {
   },
 
   build: {
-    transpile: [/^element-ui/],
+    transpile: [/^element-ui/, "vee-validate/dist/rules"],
   }
 }

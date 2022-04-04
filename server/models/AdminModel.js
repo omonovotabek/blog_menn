@@ -20,14 +20,11 @@ const adminSchema = new Schema ({
         type: String,
         required: true,
         unique: true,
-        minlength: 10,
-        maxlength: 20,
     },
     password: {
         type: String,
         required: true,
         minlength: 6,
-        maxlength: 500
     }
 })
 adminSchema.methods.firstNameCapitalise = function () {
@@ -56,5 +53,6 @@ adminSchema.methods.generateAuthToken = function () {
 }
 
 module.exports = model('Admin', adminSchema)
+
 
 

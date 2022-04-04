@@ -26,23 +26,21 @@ export const actions = {
     }
   },
 
-  async fetchAdminById({}, id) {
+  async fetchAdminById({}, {params, query}) {
     try {
-      const ad = await this.$axios.$get(`/api/post/admin/${id}`)
-      // console.log(ad)
-      return ad
+      const queryString = Object.entries(query).map(e => e.join('=')).join('&');
+      return await this.$axios.$get(`/api/post/admin/${params.id}?${queryString}`)
     } catch (e) {
       console.log(e)
     }
   },
 
-  async create({ commit }, {title, text, image}) {
+  async create({ }, {title, text, image}) {
     try {
-      // console.log(image)
       const fd = new FormData()
       fd.append('title', title)
       fd.append('text', text)
-      fd.append('image', image, image.name) 
+      fd.append('image', image, image.name)       
       return await this.$axios.$post('/api/post/admin', fd)
     } catch (e) {
       console.log(e);
@@ -68,10 +66,12 @@ export const actions = {
       console.log(e)
     }
   },
-
-
-}
-
-export const getters = {
-
+  async addView({ }, {views, _id}) {
+    try {
+      return await this.$axios.$put(`/api/post/add/view/${_id}`, {views})
+    } catch (e) {
+      console.log(e)
+    }
+  },
+  
 }

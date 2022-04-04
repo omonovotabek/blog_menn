@@ -1,128 +1,187 @@
 <template>
   <div>
-    <el-form
-      :model="controls"
-      :rules="rules"
-      ref="form"
-      @submit.native.prevent="onSubmit"
-    >
-    <h2>Создать пользователя</h2>
-      <el-form-item label="Имя" prop="firstName">
-        <el-input v-model="controls.firstName"></el-input>
-      </el-form-item>
+  
+    <ValidationObserver  ref="form" v-slot="{ handleSubmit }">
+      <el-form
+        :model="controls"
+        @submit.native.prevent="handleSubmit(onSubmit)"
+      >
+        <h2>Создать пользователя</h2>
 
-        <el-form-item label="Фамиля" prop="lastName">
-        <el-input v-model="controls.lastName"></el-input>
-      </el-form-item>
+        <ValidationProvider rules="required|min:3|max:10" v-slot="{ errors }">
+          <div class="el-form-item" data-v-60b42378="">
+            <label for="text" class="el-form-item__label">Имя</label>
+            <div class="el-form-item__content">
+              <div class="el-input" data-v-60b42378="">
+                <input
+                  type="text"
+                  @keydown.space.prevent
+                  autocomplete="off"
+                  class="el-input__inner"
+                  v-model="controls.firstName"
+                  :class="{ isValid: errors[0] }"
+                />
+              </div>
+              <div class="el-form-item__error" :class="{ isValid: errors[0] }">
+                {{ errors[0] ? errors[0].replace("{field}", '') : '' }}
+              </div>
+            </div>
+          </div>
+        </ValidationProvider>
 
-        <el-form-item label="Логин" prop="email">
-        <el-input v-model="controls.email"></el-input>
-      </el-form-item>
+        <ValidationProvider rules="required|min:3|max:10" v-slot="{ errors }">
+          <div class="el-form-item" data-v-60b42378="">
+            <label for="text" class="el-form-item__label">Фамиля</label>
+            <div class="el-form-item__content">
+              <div class="el-input" data-v-60b42378="">
+                <input
+                  type="text"
+                  @keydown.space.prevent
+                  autocomplete="off"
+                  class="el-input__inner"
+                  v-model="controls.lastName"
+                  :class="{ isValid: errors[0]}"
+                />
+              </div>
+              <div class="el-form-item__error" :class="{ isValid: errors[0] }">
+                {{ errors[0] ? errors[0].replace("{field}", '') : '' }}
+              </div>
+            </div>
+          </div>
+        </ValidationProvider>
 
-      <el-form-item label="Пароль" prop="password">
-        <el-input v-model="controls.password" type="password"></el-input>
-      </el-form-item>
+        <ValidationProvider rules="required|email" v-slot="{ errors }">
+          <div class="el-form-item" data-v-60b42378="">
+            <label for="email" class="el-form-item__label">Логин</label>
+            <div class="el-form-item__content">
+              <div class="el-input" data-v-60b42378="">
+                <input
+                  type="text"
+                  autocomplete="off"
+                  class="el-input__inner"
+                  v-model="controls.email"
+                  @keydown.space.prevent
+                  :class="{ isValid: errors[0] || setError}"
+                />
+              </div>
+              <div class="el-form-item__error" :class="{ isValid: errors[0] || setError }">
+                {{ errors[0] ? errors[0].replace("{field}", '') : setError }}
+              </div>
+            </div>
+          </div>
+        </ValidationProvider> 
 
-      <el-form-item>
-        <el-button type="primary" native-type="submit" round :loading="loading">
-          Создать
-        </el-button>
-      </el-form-item>
-    </el-form>
+        <ValidationProvider rules="required|min:6" v-slot="{ errors }">
+          <div class="el-form-item" data-v-60b42378="">
+            <label for="password" class="el-form-item__label">Пароль</label>
+            <div class="el-form-item__content">
+              <div class="el-input" data-v-60b42378="">
+                <input
+                  ref="password"
+                  type="password"
+                  autocomplete="off"
+                  @keydown.space.prevent
+                  class="el-input__inner"
+                  v-model="controls.password"
+                  :class="{ isValid: errors[0]}"
+                />
+               <span class="el-input__suffix">
+                <span @click="show_password" class="el-input__suffix-inner">
+                   <i v-if ="controls.password" class="el-input__icon el-icon-view el-input__clear"></i>
+                </span>
+               </span>
+              </div>
+              <div class="el-form-item__error" :class="{ isValid: errors[0]}">
+                {{ errors[0] ? errors[0].replace("{field}", '') : '' }}
+              </div>
+            </div>
+          </div>
+        </ValidationProvider>
+
+        <el-form-item>
+          <el-button
+            type="primary"
+            native-type="submit"
+            round
+            :loading="loading"
+          >
+            Создать
+          </el-button>
+          
+        </el-form-item>
+      </el-form>
+    </ValidationObserver>
   </div>
 </template>
 
 <script>
 export default {
-  layout: 'admin',
-  middleware: ['admin-auth'],
-   data() {
+  layout: "admin",
+  middleware: ["admin-auth"],
+  data() {
     return {
       loading: false,
+      setError: '',
       controls: {
-        lastName:'',
-        firstName:'',
+        lastName: "",
+        firstName: "",
         email: "",
         password: "",
       },
-      rules: {
-        email: [
-          {
-            required: true,
-            message: "Введите логин",
-            trigger: "blur",
-          },
-        ],
-          firstName: [
-          {
-            required: true,
-            message: "Введите имя",
-            trigger: "blur",
-          },
-        ],
-          lastName: [
-          {
-            required: true,
-            message: "Введите фамиля",
-            trigger: "blur",
-          },
-        ],
-        password: [
-          {
-            required: true,
-            message: "Введите парол",
-            trigger: "blur",
-          },
-          {
-            min: 6,
-            message: 'Пароль должен быть не менее 6 символов',
-            trigger: 'blur'
-          }
-        ],
-      },
-    }
+    };
   },
+
   methods: {
-   async onSubmit () {
+    show_password(){
+      const pass = this.$refs.password.getAttribute("type")
+        if(pass === 'password' )
+          this.$refs.password.setAttribute("type", "text")
+        if(pass === 'text')
+          this.$refs.password.setAttribute("type", "password")
+    },
+
+       
+    async onSubmit() {
       const formData = {
         firstName: this.controls.firstName,
         lastName: this.controls.lastName,
         email: this.controls.email,
-        password: this.controls.password
-      }
+        password: this.controls.password,
+      };
       try {
-        await this.$refs.form.validate()
-        this.loading = true
-        await this.$store.dispatch('auth/createUser', formData)
-        const messageCreated = this.$store.getters['auth/messageCreated'].messageCreated
-        const messageBadRequest = this.$store.getters['auth/messageBadRequest'].messageBadRequest
-      
-        if(messageCreated) 
-          this.$message.success(messageCreated)
-
-        if(messageBadRequest.name === 'badRequest')
-          this.$message.warning(messageBadRequest.message)
-        
-        if(messageBadRequest.name === 'unauthorized')
-           this.$message.info(messageBadRequest.message)
-          
-        this.controls.firstName = ""
-        this.controls.lastName = ''
-        this.controls.email = ''
-        this.controls.password = ''
-        this.loading = false
+        this.loading = true;
+        const {messageUsedEmail, messageCreateEmail} = await this.$store.dispatch("auth/createUser", formData);
+        if(messageUsedEmail){
+          this.setError = messageUsedEmail
+        }
+        if(messageCreateEmail){
+        this.$message.success(messageCreateEmail);        
+        this.controls.firstName = "";
+        this.controls.lastName = "";
+        this.controls.email = "";
+        this.controls.password = "";      
+        this.setError = ''
+        }
+        this.$refs.form.reset(); 
+        this.loading = false;
       } catch (e) {
-        this.loading = false
         console.log(e);
       }
-    }
-  }
-
-}
+    },
+  },
+};
 </script>
 
 <style scoped>
- form {
-   width: 600px;
- }
+form {
+  width: 600px;
+}
+.el-form-item__label::before {
+  content: "*";
+  color: #f56c6c;
+  margin-right: 4px;
+}
+.isValid, .isAsyncValid {
+  border-color: #f56c6c;
+}
 </style>

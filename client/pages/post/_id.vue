@@ -30,12 +30,12 @@
     </main>
     <footer>
       <app-comment-form
-      v-if="canAddComment"
+      v-if="canAddComment" 
       @created="createCommentHendler"
       />
-      <div class="comments" v-if="false">
+      <div class="comments" v-if="post.comments.length">
         <app-comment
-        v-for="comment in 4"
+        v-for="comment in comments"
         :key="comment"
         :comment="comment"
         />
@@ -55,11 +55,12 @@ export default {
     }
   },
   validate({params}) {
-    // console.log(con);
     return Boolean(params.id);
   },
   async asyncData({store, params}) {
     const post = await store.dispatch('post/fetchById', params.id)
+    await store.dispatch('post/addView', post)
+    console.log(post)
     return {post}
   },
   components: {

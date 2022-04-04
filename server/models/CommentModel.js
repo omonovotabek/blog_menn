@@ -19,8 +19,8 @@ const commentScheam = new Schema({
     },
     postId: {
         type: Schema.Types.ObjectId,
-        ref: "Post"
+        ref: "posts"
     }
 })
 
-module.exports = model('Comment', commentScheam)
+module.exports = model('comments', commentScheam)

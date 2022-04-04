@@ -22,10 +22,12 @@ const postSchema = new Schema({
         default: 0
     },
     imageUrl: String,
-    comment: {
+    comments:[ 
+    {
         type: Schema.Types.ObjectId,
-        ref:'Comment'     
+        ref:'comments'     
     }
+    ]
 })
 
-module.exports = model('Post', postSchema)
+module.exports = model('posts', postSchema)

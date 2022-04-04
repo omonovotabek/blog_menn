@@ -8,7 +8,7 @@
     @submit.native.prevent="onSubmit"
     >
       <el-form-item label="Ваше имя" prop="name">
-        <el-input v-model.trim="controls.name"></el-input>
+        <el-input v-model="controls.name"></el-input>
       </el-form-item>
 
       <el-form-item label="Текст комментария" prop="text">

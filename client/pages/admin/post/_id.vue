@@ -53,12 +53,11 @@ export default {
       title: `Пост | ${this.post.title}`
     }
   },
-  validate({params}) {
-   return Boolean(params.id)
+  validate(context) {   
+   return Boolean(context.params.id)
   },
-  async asyncData({store, params}) {
-    const post = await store.dispatch('post/fetchAdminById', params.id)
-    // console.log(post)
+  async asyncData({store, params, query}) {
+    const post = await store.dispatch('post/fetchAdminById', {params, query})
     return {post}
   },
    data() {
@@ -89,6 +88,7 @@ export default {
         this.loading = false
         await this.$store.dispatch('post/update', formData)
         this.$message.success('Пост обнавлен')
+        console.log(this.$route.query)
       } catch (e) {
         this.loading = false
         console.log(e);

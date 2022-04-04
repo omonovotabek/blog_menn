@@ -10,8 +10,9 @@ router.get('/admin', authGuard, postController.getAll)
 router.get('/admin/:id', authGuard, postController.getById)
 router.put('/admin/:id', authGuard, postController.update)
 router.delete('/admin/:id', authGuard, postController.remove)
+
 router.get('/', postController.getAll)
 router.get('/:id', postController.getById)
-router.put('/:id', postController.addView)
+router.put('/add/view/:id', postController.addView)
 
 module.exports = router 

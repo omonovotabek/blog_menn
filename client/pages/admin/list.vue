@@ -19,10 +19,10 @@
     </el-table-column>
 
     <el-table-column label="Коментарии">
-      <!-- <template slot-scope="{ row: { comments } }">
+      <template slot-scope="{ row: { comments } }">
         <i class="el-icon-message"></i>
         <span style="margin-left: 10px">{{ comments.length }}</span>
-      </template> -->
+      </template>
     </el-table-column>
 
     <el-table-column label="Действия">
@@ -56,7 +56,7 @@ export default {
   },
   methods: {
     open(id) {
-      this.$router.push(`/admin/post/${id}`)
+      this.$router.push(`/admin/post/${id}?test=123`)
     },
     async remove(id) {
       try {

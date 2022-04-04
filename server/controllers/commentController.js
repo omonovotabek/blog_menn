@@ -7,11 +7,11 @@ create = async (req, res) => {
           name, text, postId
       })
       const post = await Post.findById(postId)
-      post.Comment.push(comment._id)
+      post.comments.push(comment._id)
       await post.save()
       res.status(201).json(comment)
   } catch (e) {
-      res.status(400).json(e.message)
+      res.status(500).json(e)
   }
 }
 

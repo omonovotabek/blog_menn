@@ -13,7 +13,8 @@ export default function ({$axios, redirect, store}) {
             redirect('/admin/login?message=session')
         }
         if(error.response.status === 500){
-            console.error('Server return 500')
+            console.log('Server return 500')
+            redirect('/')
         }
 
     }

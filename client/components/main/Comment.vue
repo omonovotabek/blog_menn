@@ -9,7 +9,7 @@
     </div>
     <div class="comment-text">
        Lorem ipsum dolor sit amet.
-    </div>
+    </div> 
   </el-card>
 </template>
 

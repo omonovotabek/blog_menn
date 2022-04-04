@@ -1,10 +1,12 @@
 const multer = require('multer')
 const moment = require('moment')
+const path = require('path')
 
+const DIR = path.resolve(__dirname, '../../', 'client/static')
 module.exports.imgUpload = multer({
     storage: multer.diskStorage({
        destination(req, file, cb){
-           cb(null, 'uploads')
+           cb(null, DIR)
        },
        filename(req, file, cb) {
            const date = moment().format("DDMMYYYY-HHmmss SSS")
