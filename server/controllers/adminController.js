@@ -20,7 +20,7 @@ signUp = async (req, res) => {
     await admin.save()
     res.status(201).json({messageCreateEmail:"Создать новая ползователь"})
   } catch (e) {
-    res.status(400).json(e.message)
+    res.status(500).json(e)
   }
 }
 

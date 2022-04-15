@@ -7,7 +7,7 @@ const adminSchema = new Schema ({
     firstName: {
         type: String,
         required: true,
-        minlength: 3,
+        minlength: 5,
         maxlength: 10,
     },
     lastName: {

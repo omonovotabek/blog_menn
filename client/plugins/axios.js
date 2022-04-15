@@ -6,15 +6,22 @@ export default function ({$axios, redirect, store}) {
     }
     return request
   })
+ 
   $axios.onError(error => {
+    if (!error.response) {
+      console.log('check the Internet connection')
+      error.message = 'check the Internet connection';
+      return
+    }
     if(error.response){
         if(error.response.status === 401){
             store.dispatch('auth/logout')
             redirect('/admin/login?message=session')
         }
-        if(error.response.status === 500){
-            console.log('Server return 500')
-            redirect('/')
+        if (error.response === undefined) {
+          console.log('check the Internet connection')
+          error.message = 'check the Internet connection';
+          return
         }
 
     }

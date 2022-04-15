@@ -14,4 +14,4 @@ module.exports.authGuard = async (req, res, next) => {
     } catch (e) {
         return res.status(400).json({message: "Yaroqsiz token"})
     }
-}
+}      

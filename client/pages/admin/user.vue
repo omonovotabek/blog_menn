@@ -117,7 +117,7 @@
 <script>
 export default {
   layout: "admin",
-  middleware: ["admin-auth"],
+  // middleware: ["admin-auth"],
   data() {
     return {
       loading: false,
